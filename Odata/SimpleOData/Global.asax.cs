@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
 
-namespace Odata
+namespace SimpleOData
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

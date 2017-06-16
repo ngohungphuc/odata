@@ -6,12 +6,15 @@ using System.Web.Http;
 using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
 
-namespace Odata
+namespace SimpleOData
 {
     public static class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
         {
+            // Web API routes
+            config.MapHttpAttributeRoutes();
+            // Web API configuration and services
             //Odata register
             //Creates an Entity Data Model (EDM).
             //Adds a route.
@@ -22,12 +25,6 @@ namespace Odata
                 routePrefix: null,
                 model: builder.GetEdmModel()
             );
-
-            // Web API configuration and services
-
-            // Web API routes
-            config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

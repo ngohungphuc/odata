@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Odata")]
+[assembly: AssemblyTitle("SimpleOData")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Odata")]
+[assembly: AssemblyProduct("SimpleOData")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("251d4629-76d9-4aff-bd62-fa37dbfe1fbd")]
+[assembly: Guid("d526855f-5c22-4df1-8df5-a28560a7bba7")]
 
 // Version information for an assembly consists of the following four values:
 //
