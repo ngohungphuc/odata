@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Odata.Models
+namespace SimpleOData.Models
 {
     public class Product
     {
@@ -11,5 +8,10 @@ namespace Odata.Models
         public string Name { get; set; }
         public decimal Price { get; set; }
         public string Category { get; set; }
+
+        [ForeignKey("Supplier")]
+        public int? SupplierId { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SimpleOData.Models;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace Odata.Models
 {
@@ -13,5 +10,6 @@ namespace Odata.Models
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
     }
 }

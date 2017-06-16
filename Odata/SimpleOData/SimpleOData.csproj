@@ -115,6 +115,7 @@
     </Compile>
     <Compile Include="Models\ODataContext.cs" />
     <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Supplier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
