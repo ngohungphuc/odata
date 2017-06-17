@@ -1,17 +1,15 @@
-﻿using Odata.Models;
-using SimpleOData.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.OData;
+using Odata.Models;
+using SimpleOData.Models;
 
-namespace Odata.Controllers
+namespace SimpleOData.Controllers
 {
     public class ProductsController : ODataController
     {
