@@ -1,0 +1,1 @@
+To run the demos in this module, you just need Visual Studio 2012 Pro or better. Open the solution, set the startup project, and run.

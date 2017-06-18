@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindServices.Entities", "NorthwindServices.Entities\NorthwindServices.Entities.csproj", "{BE994AEE-3020-4C59-895A-F54455B39112}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindServices.Data", "NorthwindServices.Data\NorthwindServices.Data.csproj", "{33A741CE-381B-40AF-A159-65D589A818D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE994AEE-3020-4C59-895A-F54455B39112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE994AEE-3020-4C59-895A-F54455B39112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE994AEE-3020-4C59-895A-F54455B39112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE994AEE-3020-4C59-895A-F54455B39112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33A741CE-381B-40AF-A159-65D589A818D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33A741CE-381B-40AF-A159-65D589A818D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33A741CE-381B-40AF-A159-65D589A818D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33A741CE-381B-40AF-A159-65D589A818D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

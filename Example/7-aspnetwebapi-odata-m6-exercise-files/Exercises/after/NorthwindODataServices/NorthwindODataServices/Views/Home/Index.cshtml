@@ -1,0 +1,152 @@
+﻿<script src="/scripts/knockout-2.2.1.js" type="text/javascript"></script>
+<script src="/scripts/datajs-1.1.0.js" type="text/javascript"></script>
+<script src="/scripts/q.js" type="text/javascript"></script>
+<script src="/scripts/breeze.debug.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var my = {}; //my namespace
+    $(function () {
+        var serverAddress = "/odata/";
+        breeze.config.initializeAdapterInstances({ dataService: "OData" });
+        var manager = new breeze.EntityManager(serverAddress);
+
+        // Product construction
+        var Customer = function () {
+            this.CustomerID = ko.observable();
+            this.CompanyName = ko.observable();
+            this.Phone = ko.observable();
+        };
+
+        my.vm = {
+           
+            // observable array of products
+            customers: ko.observableArray([]),
+
+            // loading the observable array with sample data
+            //load: function () {
+            //    $.get(serverAddress + "Customers", function (data) {
+            //        $.each(data.value, function (i, c) {
+            //            my.vm.customers.push(new Customer().CustomerID(c.CustomerID).CompanyName(c.CompanyName).Phone(c.Phone));
+            //        });
+            //    });
+            //},
+
+            //load: function () {
+            //    $.ajax(
+            //        {
+            //            url: serverAddress + "Customers",
+            //            headers: {"Accept": "application/json;odata=verbose" },
+            //            type: "GET",
+            //            success: function (data) {
+            //                $.each(data.d.results, function (i, c) {
+            //                    my.vm.customers.push(new Customer().CustomerID(c.CustomerID).CompanyName(c.CompanyName).Phone(c.Phone));
+            //                });
+            //            }
+            //        });
+            //},
+            
+
+            //load: function () {
+            //    OData.read(serverAddress + "Customers", function (data) {
+            //    $.each(data.results, function (i, c) {
+            //        my.vm.customers.push(new Customer().CustomerID(c.CustomerID).CompanyName(c.CompanyName).Phone(c.Phone));
+            //        });
+            //    });
+            //},
+
+            //load: function () {
+            //    OData.request(
+            //        {
+            //            requestUri: serverAddress + "Customers",
+            //            method: "GET",
+            //            headers: { "Accept": "application/atom+xml" }
+            //        }, function (data) {
+            //            $.each(data.results, function (i, c) {
+            //                my.vm.customers.push(new Customer().CustomerID(c.CustomerID).CompanyName(c.CompanyName).Phone(c.Phone));
+            //            });
+            //        });
+            //},
+
+            load: function () {
+                //var query = breeze.EntityQuery.from("Customers");
+                var query = breeze.EntityQuery.from("Customers").where("CompanyName", "startsWith", "B");
+                manager.executeQuery(query, function (data) {
+                    var results = data.results;
+                    $.each(data.results, function (i, c) {
+                        my.vm.customers.push(new Customer().CustomerID(c.CustomerID()).CompanyName(c.CompanyName()).Phone(c.Phone()));
+                    });
+                }, function (error) {
+                    alert(error);
+                });
+            },
+
+            createCustomer: function () {
+                my.vm.editingCustomer(new Customer());
+            },
+
+            saveCustomer: function () {
+                var customer = ko.toJSON( my.vm.editingCustomer());
+                $.ajax(
+                    {
+                        url: "odata/Customers",
+                        headers: { "Content-Type": "application/json" },
+                        type: "POST",
+                        success: function () { },
+                        error: function (msg) { alert(msg); },
+                        data: customer,
+                        processData: false
+                    });
+                my.vm.editingCustomer(null);
+            },
+
+            editingCustomer: ko.observable()
+    };
+        my.vm.load();
+        ko.applyBindings(my.vm);
+    });
+    
+</script>
+<h2>Customers (<span data-bind="text: customers().length"></span>)</h2>
+<p><a href="#" data-bind="click: createCustomer">Create new</a></p>
+
+<div class="overlay" data-bind="visible: editingCustomer">
+    <form action="#" data-bind="with: editingCustomer">
+        <fieldset>
+            <legend>Customer</legend>
+
+            <p>
+                CustomerID:
+                <input name="CustomerID" data-bind="value: CustomerID"/>
+            </p>
+            <p>
+                CompanyName: 
+                <input name="CompanyName" data-bind="value: CompanyName" />
+            </p>
+            <p>
+                Phone: 
+                <input name="Phone" data-bind="value: Phone" />
+            </p>
+            <p>
+                <button type="submit" data-bind="click: $parent.saveCustomer">OK</button>
+            </p>
+        </fieldset>
+    </form>
+</div>
+
+
+<table>
+    <thead>
+        <tr>
+             <th>CustomerID</th>
+             <th>CompanyName</th>
+             <th>Phone</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: customers">
+        <tr >
+            <td data-bind="text: CustomerID"></td>
+            <td data-bind="text: CompanyName"></td>
+            <td data-bind="text: Phone"></td>
+        </tr>
+    </tbody>
+</table>
+

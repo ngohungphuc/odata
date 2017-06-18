@@ -1,0 +1,1 @@
+To run the samples in this module, just open them in Visual Studio 2012 Pro or better, set the startup project to the web project, and run.

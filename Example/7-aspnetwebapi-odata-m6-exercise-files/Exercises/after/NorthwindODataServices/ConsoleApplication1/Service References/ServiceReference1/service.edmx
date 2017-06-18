@@ -1,0 +1,59 @@
+﻿<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
+  <edmx:DataServices m:DataServiceVersion="3.0" m:MaxDataServiceVersion="3.0" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+    <Schema Namespace="NorthwindServices.Entities" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityType Name="Customer">
+        <Key>
+          <PropertyRef Name="CustomerID" />
+        </Key>
+        <Property Name="CustomerID" Type="Edm.String" Nullable="false" />
+        <Property Name="CompanyName" Type="Edm.String" />
+        <Property Name="ContactName" Type="Edm.String" />
+        <Property Name="Phone" Type="Edm.String" />
+        <Property Name="Address" Type="Edm.String" />
+        <Property Name="City" Type="Edm.String" />
+        <Property Name="PostalCode" Type="Edm.String" />
+        <Property Name="Country" Type="Edm.String" />
+        <NavigationProperty Name="Orders" Relationship="NorthwindServices.Entities.NorthwindServices_Entities_Customer_Orders_NorthwindServices_Entities_Order_OrdersPartner" ToRole="Orders" FromRole="OrdersPartner" />
+      </EntityType>
+      <EntityType Name="Order">
+        <Key>
+          <PropertyRef Name="OrderID" />
+        </Key>
+        <Property Name="OrderID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="CustomerID" Type="Edm.String" />
+        <Property Name="EmployeeID" Type="Edm.Int32" />
+        <Property Name="OrderDate" Type="Edm.DateTime" />
+        <Property Name="RequiredDate" Type="Edm.DateTime" />
+        <Property Name="ShippedDate" Type="Edm.DateTime" />
+        <Property Name="OrderDetails" Type="Collection(NorthwindServices.Entities.OrderDetail)" Nullable="false" />
+      </EntityType>
+      <ComplexType Name="OrderDetail">
+        <Property Name="OrderID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="ProductID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Product" Type="NorthwindServices.Entities.Product" />
+        <Property Name="UnitPrice" Type="Edm.Decimal" Nullable="false" />
+        <Property Name="Quantity" Type="Edm.Int16" Nullable="false" />
+        <Property Name="Discount" Type="Edm.Single" Nullable="false" />
+      </ComplexType>
+      <ComplexType Name="Product">
+        <Property Name="ProductID" Type="Edm.Int32" Nullable="false" />
+        <Property Name="ProductName" Type="Edm.String" />
+        <Property Name="UnitPrice" Type="Edm.Decimal" Nullable="false" />
+      </ComplexType>
+      <Association Name="NorthwindServices_Entities_Customer_Orders_NorthwindServices_Entities_Order_OrdersPartner">
+        <End Type="NorthwindServices.Entities.Order" Role="Orders" Multiplicity="*" />
+        <End Type="NorthwindServices.Entities.Customer" Role="OrdersPartner" Multiplicity="0..1" />
+      </Association>
+    </Schema>
+    <Schema Namespace="Default" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <EntityContainer Name="Container" m:IsDefaultEntityContainer="true">
+        <EntitySet Name="Customers" EntityType="NorthwindServices.Entities.Customer" />
+        <EntitySet Name="Orders" EntityType="NorthwindServices.Entities.Order" />
+        <AssociationSet Name="NorthwindServices_Entities_Customer_Orders_NorthwindServices_Entities_Order_OrdersPartnerSet" Association="NorthwindServices.Entities.NorthwindServices_Entities_Customer_Orders_NorthwindServices_Entities_Order_OrdersPartner">
+          <End Role="OrdersPartner" EntitySet="Customers" />
+          <End Role="Orders" EntitySet="Orders" />
+        </AssociationSet>
+      </EntityContainer>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

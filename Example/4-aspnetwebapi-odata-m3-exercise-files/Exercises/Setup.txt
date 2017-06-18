@@ -1,0 +1,4 @@
+To run the demos in this module, you just need Visual Studio 2012.
+Open the solution, build, set the startup project to the Web project, and run.
+If you want to do the profiling shown in the Deferred Execution demo,
+you will need SQL Server Developer edition or better.
