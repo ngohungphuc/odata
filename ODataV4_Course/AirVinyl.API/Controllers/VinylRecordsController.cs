@@ -19,6 +19,17 @@ namespace AirVinyl.API.Controllers
             return Ok(_context.VinylRecords);
         }
 
+        [ODataRoute("VinylRecords({key})")]
+        public IHttpActionResult Get([FromODataUri] int key)
+        {
+            var vinyl = _context.VinylRecords.FirstOrDefault(p => p.VinylRecordId == key);
+            if (vinyl == null)
+            {
+                return NotFound();
+            }
+            return Ok(vinyl);
+        }
+
         protected override void Dispose(bool disposing)
         {
             _context.Dispose();
