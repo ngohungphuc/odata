@@ -214,6 +214,112 @@ namespace AirVinyl.API.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        // POST odata/People('key')/Friends/$ref
+        [HttpPost]
+        [ODataRoute("People({key})/Friends/$ref")]
+        public IHttpActionResult CreateLinkToFriend([FromODataUri] int key, [FromBody] Uri link)
+        {
+            // get the current person, including friends as we need to check those
+            var currentPerson = _context.People.Include("Friends").FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            // we need the key value from the passed-in link Uri
+            int keyOfFriendToAdd = Request.GetKeyValue<int>(link);
+
+            if (currentPerson.Friends.Any(item => item.PersonId == keyOfFriendToAdd))
+            {
+                return BadRequest(string.Format("The person with Id {0} is already linked to the person with Id {1}",
+                    key, keyOfFriendToAdd));
+            }
+
+            // find the friend
+            var friendToLinkTo = _context.People.FirstOrDefault(p => p.PersonId == keyOfFriendToAdd);
+            if (friendToLinkTo == null)
+            {
+                return NotFound();
+            }
+
+            // add the friend
+            currentPerson.Friends.Add(friendToLinkTo);
+            _context.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
+        // PUT odata/People('key')/Friends/$ref?$id={'relatedKey'}
+        [HttpPut]
+        [ODataRoute("People({key})/Friends({relatedKey})/$ref")]
+        public IHttpActionResult UpdateLinkToFriend([FromODataUri] int key,
+            [FromODataUri] int relatedKey, [FromBody] Uri link)
+        {
+            // get the current person, including friends as we need to check those
+            var currentPerson = _context.People.Include("Friends").FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            // find the current friend
+            var currentfriend = currentPerson.Friends.FirstOrDefault(item => item.PersonId == relatedKey);
+            if (currentfriend == null)
+            {
+                return NotFound();
+            }
+
+            // check if the person isn't already linked to this friend
+
+            // we need the key value from the passed-in link Uri
+            int keyOfFriendToAdd = Request.GetKeyValue<int>(link);
+            if (currentPerson.Friends.Any(item => item.PersonId == keyOfFriendToAdd))
+            {
+                return BadRequest(string.Format("The person with Id {0} is already linked to the person with Id {1}",
+                    key, keyOfFriendToAdd));
+            }
+
+            // find the new friend
+            var friendToLinkTo = _context.People.FirstOrDefault(p => p.PersonId == keyOfFriendToAdd);
+            if (friendToLinkTo == null)
+            {
+                return NotFound();
+            }
+
+            // remove the old friend, add the new friend
+            currentPerson.Friends.Remove(currentfriend);
+            currentPerson.Friends.Add(friendToLinkTo);
+            _context.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // DELETE odata/People('key')/Friends/$ref?$id={'relatedUriWithRelatedKey'}
+        [HttpDelete]
+        [ODataRoute("People({key})/Friends({relatedKey})/$ref")]
+        public IHttpActionResult DeleteLinkToFriend([FromODataUri] int key, [FromODataUri] int relatedKey)
+        {
+            // get the current person, including friends as we need to check those
+            var currentPerson = _context.People.Include("Friends").FirstOrDefault(p => p.PersonId == key);
+            if (currentPerson == null)
+            {
+                return NotFound();
+            }
+
+            var friend = currentPerson.Friends.FirstOrDefault(item => item.PersonId == relatedKey);
+            if (friend == null)
+            {
+                return NotFound();
+            }
+
+            currentPerson.Friends.Remove(friend);
+            _context.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             _context.Dispose();
