@@ -16,7 +16,7 @@ namespace AirVinyl.API.Controllers
     {
         private AirVinylDbContext _context = new AirVinylDbContext();
 
-        [EnableQuery]
+        [ReplaceNullContentWithNotFound(MaxExpansionDepth = 3, MaxSkip = 10, MaxTop = 5)]
         public IHttpActionResult Get()
         {
             return Ok(_context.People);
