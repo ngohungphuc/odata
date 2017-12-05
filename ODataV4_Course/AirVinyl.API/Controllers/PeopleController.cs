@@ -22,15 +22,18 @@ namespace AirVinyl.API.Controllers
             return Ok(_context.People);
         }
 
+        [ReplaceNullContentWithNotFound]
         [ODataRoute("People({key})")]
         public IHttpActionResult Get([FromODataUri] int key)
         {
-            var person = _context.People.FirstOrDefault(p => p.PersonId == key);
-            if (person == null)
+            var people = _context.People.Where(p => p.PersonId == key);
+
+            if (!people.Any())
             {
                 return NotFound();
             }
-            return Ok(person);
+
+            return Ok(SingleResult.Create(people));
         }
 
 
@@ -66,6 +69,21 @@ namespace AirVinyl.API.Controllers
 
 
         [HttpGet]
+        [ReplaceNullContentWithNotFound]
+        [ODataRoute("People({key})/VinylRecords")]
+        public IHttpActionResult GetVinylRecordsForPerson([FromODataUri] int key)
+        {
+            var person = _context.People.FirstOrDefault(p => p.PersonId == key);
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_context.VinylRecords.Where(v => v.Person.PersonId == key));
+        }
+
+        [HttpGet]
+        [ReplaceNullContentWithNotFound]
         [ODataRoute("People({key})/Friends")]
         [ODataRoute("People({key})/VinylRecords")]
         public IHttpActionResult GetPersonCollectionProperty([FromODataUri] int key)
