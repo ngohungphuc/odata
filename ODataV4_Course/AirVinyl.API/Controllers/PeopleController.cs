@@ -16,6 +16,7 @@ namespace AirVinyl.API.Controllers
     {
         private AirVinylDbContext _context = new AirVinylDbContext();
 
+        [EnableQuery]
         public IHttpActionResult Get()
         {
             return Ok(_context.People);
