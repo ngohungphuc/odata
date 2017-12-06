@@ -31,10 +31,20 @@ namespace AirVinyl.API
             builder.EntitySet<Person>("People");
             builder.EntitySet<RecordStore>("RecordStores");
 
+            // function bound to RecordStore entity
             var isHighRatedFunction = builder.EntityType<RecordStore>().Function("IsHighRated");
             isHighRatedFunction.Returns<bool>();
             isHighRatedFunction.Parameter<int>("minimumRating");
             isHighRatedFunction.Namespace = "AirVinyl.Functions";
+
+            // function bound to RecordStore list
+            var areRatedByFunction = builder.EntityType<RecordStore>().Collection
+                .Function("AreRatedBy");
+
+            areRatedByFunction.ReturnsCollectionFromEntitySet<RecordStore>("RecordStores");
+            areRatedByFunction.CollectionParameter<int>("personIds");
+            areRatedByFunction.Namespace = "AirVinyl.Functions";
+
             return builder.GetEdmModel();
         }
     }
