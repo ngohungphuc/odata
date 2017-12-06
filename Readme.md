@@ -38,3 +38,5 @@ http://localhost:53613/odata/People?$orderby=Gender  desc, Email
 http://localhost:53613/odata/People?$top=2
 
 http://localhost:53613/odata/People?$top=2&$skip=2
+
+http://localhost:53613/odata/People?$top=2&$skip=2&$count=true

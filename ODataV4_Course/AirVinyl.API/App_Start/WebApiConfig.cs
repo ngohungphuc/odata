@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -8,11 +6,8 @@ using System.Web.Http.Filters;
 using System.Web.OData;
 using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
-using System.Web.OData.Formatter.Serialization;
 using AirVinyl.Model;
-using Microsoft.OData;
 using Microsoft.OData.Edm;
-using Microsoft.Owin;
 
 namespace AirVinyl.API
 {
@@ -34,8 +29,8 @@ namespace AirVinyl.API
 
             config.Count().Filter().OrderBy().Expand().Select().MaxTop(null);
             builder.EntitySet<Person>("People");
-            builder.EntitySet<VinylRecord>("VinylRecords");
-
+            //builder.EntitySet<VinylRecord>("VinylRecords");
+            builder.EntitySet<RecordStore>("RecordStores");
             return builder.GetEdmModel();
         }
     }

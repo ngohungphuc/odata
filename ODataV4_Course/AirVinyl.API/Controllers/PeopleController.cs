@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Http;
 using System.Web.OData;
 using System.Web.OData.Routing;
@@ -81,6 +79,30 @@ namespace AirVinyl.API.Controllers
 
             return Ok(_context.VinylRecords.Where(v => v.Person.PersonId == key));
         }
+
+        [HttpGet]
+        [ReplaceNullContentWithNotFound]
+        [ODataRoute("People({key})/VinylRecords({vinylRecordKey})")]
+        public IHttpActionResult GetVinylRecordForPerson([FromODataUri] int key, [FromODataUri] int vinylRecordKey)
+        {
+            var person = _context.People.FirstOrDefault(p => p.PersonId == key);
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            // queryable, no FirstOrDefault
+            var vinylRecords = _context.VinylRecords.Include("DynamicVinylRecordProperties")
+                .Where(v => v.Person.PersonId == key && v.VinylRecordId == vinylRecordKey);
+
+            if (!vinylRecords.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(SingleResult.Create(vinylRecords));
+        }
+
 
         [HttpGet]
         [ReplaceNullContentWithNotFound]

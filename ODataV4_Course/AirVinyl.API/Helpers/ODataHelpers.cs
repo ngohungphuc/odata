@@ -1,17 +1,15 @@
 ﻿
 using System;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Filters;
 using System.Web.Http.Routing;
 using System.Web.OData;
 using System.Web.OData.Extensions;
 using System.Web.OData.Routing;
-using Microsoft.OData;
+
 namespace AirVinyl.API.Helpers
 {
     /// <summary>
