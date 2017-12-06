@@ -13,20 +13,20 @@ namespace AirVinyl.API.Controllers
     public class RecordStoresController : ODataController
     {
         // context
-        private readonly AirVinylDbContext _ctx = new AirVinylDbContext();
+        private readonly AirVinylDbContext _context = new AirVinylDbContext();
 
         // GET odata/RecordStores
         [EnableQuery]
         public IHttpActionResult Get()
         {
-            return Ok(_ctx.RecordStores);
+            return Ok(_context.RecordStores);
         }
 
         // GET odata/RecordStores(key)
         [EnableQuery]
         public IHttpActionResult Get([FromODataUri] int key)
         {
-            var recordStores = _ctx.RecordStores.Where(p => p.RecordStoreId == key);
+            var recordStores = _context.RecordStores.Where(p => p.RecordStoreId == key);
 
             if (!recordStores.Any())
             {
@@ -43,7 +43,7 @@ namespace AirVinyl.API.Controllers
         {
             // no Include necessary for EF - Tags isn't a navigation property 
             // in the entity model.  
-            var recordStore = _ctx.RecordStores
+            var recordStore = _context.RecordStores
                 .FirstOrDefault(p => p.RecordStoreId == key);
 
             if (recordStore == null)
@@ -58,5 +58,20 @@ namespace AirVinyl.API.Controllers
             return this.CreateOKHttpActionResult(collectionPropertyValue);
         }
 
+        [HttpGet]
+        [ODataRoute("RecordStores({key})/AirVinyl.Functions.IsHighRated(minimumRating={minimumRating})")]
+        public bool IsHighRated([FromODataUri] int key, int minimumRating)
+        {
+            var recordStore = _context.RecordStores
+                .FirstOrDefault(p => p.RecordStoreId == key && p.Ratings.Any()
+                && (p.Ratings.Sum(r => r.Value) / p.Ratings.Count) >= minimumRating);
+            return (recordStore != null);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+            base.Dispose(disposing);
+        }
     }
 }

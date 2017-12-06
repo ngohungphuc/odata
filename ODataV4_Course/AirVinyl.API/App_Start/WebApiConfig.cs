@@ -29,8 +29,12 @@ namespace AirVinyl.API
 
             config.Count().Filter().OrderBy().Expand().Select().MaxTop(null);
             builder.EntitySet<Person>("People");
-            //builder.EntitySet<VinylRecord>("VinylRecords");
             builder.EntitySet<RecordStore>("RecordStores");
+
+            var isHighRatedFunction = builder.EntityType<RecordStore>().Function("IsHighRated");
+            isHighRatedFunction.Returns<bool>();
+            isHighRatedFunction.Parameter<int>("minimumRating");
+            isHighRatedFunction.Namespace = "AirVinyl.Functions";
             return builder.GetEdmModel();
         }
     }
